@@ -1,0 +1,163 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+//variable declarations:
+const int rows = 3;
+const int cols = 3;
+
+//function declarations
+void game();
+void initGameboard(string gameBoard[rows][cols]);//inits all indicies to " "
+void printBoard(string gameBoard[rows][cols]);//prints the game board
+void userInput(int count, string gameBoard[rows][cols]);//fills in the board
+bool checkWin(string gameBoard[rows][cols]);
+bool checkTie(string gameBoard[rows][cols]);
+
+int main() {
+	//call the game loop here
+	game();
+	return 0;
+}
+
+
+void game()//calls the other functions
+{
+	int count = 0;
+	int icount = 0;
+	string board[rows][cols];
+	initGameboard(board);
+	while(count<9 && checkWin(board) == false) 
+	{
+		if (checkTie(board) == true) {
+			cout << "Tie!!" << endl;
+		}
+		else {
+			userInput(count, board);
+			checkWin(board);
+			printBoard(board);
+			count++;
+		}
+	}
+	
+}
+
+bool checkTie(string gameBoard[rows][cols]) 
+{
+	int count = 0;
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (gameBoard[i][j] != " ") {
+				count++;
+			}
+		}
+	}
+
+	if (count == 9) {
+		return true;
+	}
+}
+
+
+//sets the board to blank
+void initGameboard(string gameBoard[rows][cols]){
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			gameBoard[i][j] = " ";
+		}
+
+	}
+}
+
+void printBoard(string gameBoard[rows][cols]) {
+	cout << gameBoard[0][0] << "|" << gameBoard[0][1] << "|" << gameBoard[0][2] << endl;
+	cout << "---" << "---" << "---" << endl;
+	cout << gameBoard[1][0] << "|" << gameBoard[1][1] << "|" << gameBoard[1][2] << endl;
+	cout << "---" << "---" << "---" << endl;
+	cout << gameBoard[2][0] << "|" << gameBoard[2][1] << "|" << gameBoard[2][2] << endl;
+}
+
+void userInput(int count, string gameBoard[rows][cols]) 
+{
+	string input;
+	int i;
+	int j;
+
+	
+	if (count % 2 == 0) {
+		input = "X";
+		
+	}
+	else if (count % 2 == 1) {
+		input = 'O';
+		
+	}
+ 
+	cout << "Please enter the row you want to enter your :" << endl;
+	cin >> i;
+	cout << "Please enter the col you want to enter your :" << endl;
+	cin >> j;
+
+	if (gameBoard[i][j] == " ") {
+		gameBoard[i][j] = input;
+		count++;  
+	}
+	else {
+		cout << "Filled already Please choose another square" << endl;
+	}
+	
+
+}
+
+bool checkWin(string gameBoard[rows][cols])
+{
+	//checks rows
+
+	for (int i = 0; i < rows; i++)
+	{
+		if (gameBoard[i][0] == "X" && gameBoard[i][1] == "X" && gameBoard[i][2]== "X")
+		{
+			return true;
+		}
+	}
+
+	for (int i = 0; i < rows; i++)
+	{
+		if (gameBoard[i][0] == "O" && gameBoard[i][1] == "O" && gameBoard[i][2] == "O")
+		{
+			return true;
+		}
+	}
+
+	//checks rows
+	for (int i = 0; i < rows; i++)
+	{
+		if (gameBoard[0][i] == "X" && gameBoard[1][i] == "X" && gameBoard[2][i]=="X")
+		{
+			cout << "X Wins" << endl;
+		}
+	}
+
+	for (int i = 0; i < rows; i++)
+	{
+		if (gameBoard[0][i] == "O" && gameBoard[1][i] == "O" && gameBoard[2][i] == "O")
+		{
+			return true;
+		}
+	}
+
+	//check diagnals
+
+	if ((gameBoard[0][0] == "X" && gameBoard[1][1] == "X" && gameBoard[2][2] =="X") || (gameBoard[0][2] == "X" && gameBoard[1][1] == "X"&& gameBoard[2][0] == "X"))
+	{
+		return true;
+	}
+
+	if ((gameBoard[0][0] == "O" && gameBoard[1][1] == "O" && gameBoard[2][2] == "O") || (gameBoard[0][2] == "O" && gameBoard[1][1] == "O" && gameBoard[2][0] == "O"))
+	{
+		return true;
+	}
+
+}
